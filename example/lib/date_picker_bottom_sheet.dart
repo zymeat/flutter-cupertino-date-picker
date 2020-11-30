@@ -193,6 +193,8 @@ class _DatePickerBottomSheetState extends State<DatePickerBottomSheet> {
       minDateTime: DateTime.parse(MIN_DATETIME),
       maxDateTime: DateTime.parse(MAX_DATETIME),
       initialDateTime: _dateTime,
+      bottomView: true,
+      bottomViewHeight: 90,
       dateFormat: _format,
       locale: _locale,
       onClose: () => print("----- onClose -----"),

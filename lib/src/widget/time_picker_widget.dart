@@ -19,7 +19,6 @@ class TimePickerWidget extends StatefulWidget {
     this.minDateTime,
     this.maxDateTime,
     this.initDateTime,
-    this.bottomView,
     this.dateFormat: DATETIME_PICKER_TIME_FORMAT,
     this.locale: DATETIME_PICKER_LOCALE_DEFAULT,
     this.pickerTheme: DateTimePickerTheme.Default,
@@ -33,7 +32,6 @@ class TimePickerWidget extends StatefulWidget {
     assert(minTime.compareTo(maxTime) < 0);
   }
 
-  final Widget bottomView;
   final DateTime minDateTime, maxDateTime, initDateTime;
   final String dateFormat;
   final DateTimePickerLocale locale;
@@ -137,7 +135,6 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       return Column(children: <Widget>[
         titleWidget,
         pickerWidget,
-        widget.bottomView ?? SizedBox()
       ]);
     }
     return pickerWidget;

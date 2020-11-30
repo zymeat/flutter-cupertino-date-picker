@@ -7,6 +7,7 @@ import '../date_time_formatter.dart';
 import '../date_picker_theme.dart';
 import '../date_picker_constants.dart';
 import '../i18n/date_picker_i18n.dart';
+import 'date_picker_bottom_widget.dart';
 import 'date_picker_title_widget.dart';
 
 /// Solar months of 31 days.
@@ -23,19 +24,21 @@ class DatePickerWidget extends StatefulWidget {
     this.minDateTime,
     this.maxDateTime,
     this.initialDateTime,
-    this.bottomView,
+    this.bottomView = false,
     this.dateFormat: DATETIME_PICKER_DATE_FORMAT,
     this.locale: DATETIME_PICKER_LOCALE_DEFAULT,
     this.pickerTheme: DateTimePickerTheme.Default,
     this.onCancel,
     this.onChange,
+    this.onSelectedTimeType,
+    this.timeType = DatePickerBottomType.morning,
     this.onConfirm,
   }) : super(key: key) {
     DateTime minTime = minDateTime ?? DateTime.parse(DATE_PICKER_MIN_DATETIME);
     DateTime maxTime = maxDateTime ?? DateTime.parse(DATE_PICKER_MAX_DATETIME);
     assert(minTime.compareTo(maxTime) < 0);
   }
-  final Widget bottomView;
+  final bool bottomView;
   final DateTime minDateTime, maxDateTime, initialDateTime;
   final String dateFormat;
   final DateTimePickerLocale locale;
@@ -44,10 +47,12 @@ class DatePickerWidget extends StatefulWidget {
   final DateVoidCallback onCancel;
   final DateValueCallback onChange, onConfirm;
   final onMonthChangeStartWithFirstDate;
+  final DatePickerBottomType timeType;
+  final DidSelectedDateType onSelectedTimeType;
 
   @override
   State<StatefulWidget> createState() => _DatePickerWidgetState(
-      this.minDateTime, this.maxDateTime, this.initialDateTime);
+      this.minDateTime, this.maxDateTime, this.initialDateTime, this.timeType);
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
@@ -55,14 +60,15 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   int _currYear, _currMonth, _currDay;
   List<int> _yearRange, _monthRange, _dayRange;
   FixedExtentScrollController _yearScrollCtrl, _monthScrollCtrl, _dayScrollCtrl;
+  DatePickerBottomType _timeType;
 
   Map<String, FixedExtentScrollController> _scrollCtrlMap;
   Map<String, List<int>> _valueRangeMap;
 
   bool _isChangeDateRange = false;
 
-  _DatePickerWidgetState(
-      DateTime minDateTime, DateTime maxDateTime, DateTime initialDateTime) {
+  _DatePickerWidgetState(DateTime minDateTime, DateTime maxDateTime,
+      DateTime initialDateTime, this._timeType) {
     // handle current selected year、month、day
     DateTime initDateTime = initialDateTime ?? DateTime.now();
     this._currYear = initDateTime.year;
@@ -112,7 +118,20 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   /// render date picker widgets
   Widget _renderPickerView(BuildContext context) {
     Widget datePickerWidget = _renderDatePickerWidget();
+    Widget bottomWidget = SizedBox();
+    if (widget.bottomView) {
+      bottomWidget = DatePickerBottomWidget(
+          timeType: _timeType,
+          onSelected: (type) {
+            if (widget.onSelectedTimeType != null) {
+              widget.onSelectedTimeType(type);
+            }
 
+            setState(() {
+              _timeType = type;
+            });
+          });
+    }
     // display the title widget
     if (widget.pickerTheme.title != null || widget.pickerTheme.showTitle) {
       Widget titleWidget = DatePickerTitleWidget(
@@ -121,13 +140,10 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         onCancel: () => _onPressedCancel(),
         onConfirm: () => _onPressedConfirm(),
       );
-      return Column(children: <Widget>[
-        titleWidget,
-        datePickerWidget,
-        widget.bottomView ?? SizedBox()
-      ]);
+      return Column(
+          children: <Widget>[titleWidget, datePickerWidget, bottomWidget]);
     }
-    return datePickerWidget;
+    return Column(children: [datePickerWidget, bottomWidget]);
   }
 
   /// pressed cancel widget

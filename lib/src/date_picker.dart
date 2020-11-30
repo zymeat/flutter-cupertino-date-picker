@@ -5,6 +5,7 @@ import 'date_picker_theme.dart';
 import 'date_picker_constants.dart';
 import 'date_time_formatter.dart';
 import 'i18n/date_picker_i18n.dart';
+import 'widget/date_picker_bottom_widget.dart';
 import 'widget/date_picker_widget.dart';
 import 'widget/datetime_picker_widget.dart';
 import 'widget/time_picker_widget.dart';
@@ -44,8 +45,10 @@ class DatePicker {
     DateTime maxDateTime,
     DateTime initialDateTime,
     String dateFormat,
-    Widget bottomView,
+    bool bottomView,
     double bottomViewHeight = 0,
+    DatePickerBottomType timeType = DatePickerBottomType.morning,
+    DidSelectedDateType onSelectedTimeType,
     DateTimePickerLocale locale: DATETIME_PICKER_LOCALE_DEFAULT,
     DateTimePickerMode pickerMode: DateTimePickerMode.date,
     DateTimePickerTheme pickerTheme: DateTimePickerTheme.Default,
@@ -100,6 +103,8 @@ class DatePicker {
         bottomView: bottomView,
         bottomViewHeight: bottomViewHeight,
         pickerMode: pickerMode,
+        timeType: timeType,
+        onSelectedTimeType: onSelectedTimeType,
         pickerTheme: pickerTheme,
         onCancel: onCancel,
         onChange: onChange,
@@ -128,12 +133,14 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
     this.onCancel,
     this.onChange,
     this.onConfirm,
+    this.onSelectedTimeType,
+    this.timeType = DatePickerBottomType.morning,
     this.theme,
     this.barrierLabel,
     this.minuteDivider,
     RouteSettings settings,
   }) : super(settings: settings);
-  final Widget bottomView;
+  final bool bottomView;
   final double bottomViewHeight;
   final DateTime minDateTime, maxDateTime, initialDateTime;
   final String dateFormat;
@@ -145,6 +152,8 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
   final DateValueCallback onConfirm;
   final int minuteDivider;
   final bool onMonthChangeStartWithFirstDate;
+  final DatePickerBottomType timeType;
+  final DidSelectedDateType onSelectedTimeType;
 
   final ThemeData theme;
 
@@ -173,7 +182,10 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    double height = pickerTheme.pickerHeight + bottomViewHeight;
+    double height = pickerTheme.pickerHeight +
+        (pickerMode == DateTimePickerMode.date
+            ? (bottomViewHeight >= 36 ? bottomViewHeight : 36)
+            : 0);
     if (pickerTheme.title != null || pickerTheme.showTitle) {
       height += pickerTheme.titleHeight;
     }
@@ -203,7 +215,6 @@ class _DatePickerComponent extends StatelessWidget {
     Widget pickerWidget;
     switch (route.pickerMode) {
       case DateTimePickerMode.date:
-        print('-----------------bottomView:${route.bottomView}');
         pickerWidget = DatePickerWidget(
           onMonthChangeStartWithFirstDate:
               route.onMonthChangeStartWithFirstDate,
@@ -213,6 +224,8 @@ class _DatePickerComponent extends StatelessWidget {
           initialDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,
           locale: route.locale,
+          timeType: route.timeType,
+          onSelectedTimeType: route.onSelectedTimeType,
           pickerTheme: route.pickerTheme,
           onCancel: route.onCancel,
           onChange: route.onChange,
@@ -223,7 +236,6 @@ class _DatePickerComponent extends StatelessWidget {
         pickerWidget = TimePickerWidget(
           minDateTime: route.minDateTime,
           maxDateTime: route.maxDateTime,
-          bottomView: route.bottomView,
           initDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,
           locale: route.locale,
@@ -237,7 +249,6 @@ class _DatePickerComponent extends StatelessWidget {
       case DateTimePickerMode.datetime:
         pickerWidget = DateTimePickerWidget(
           minDateTime: route.minDateTime,
-          bottomView: route.bottomView,
           maxDateTime: route.maxDateTime,
           initDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,

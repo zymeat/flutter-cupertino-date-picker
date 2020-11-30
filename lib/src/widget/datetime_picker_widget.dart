@@ -19,6 +19,7 @@ class DateTimePickerWidget extends StatefulWidget {
     Key key,
     this.minDateTime,
     this.maxDateTime,
+    this.bottomView,
     this.initDateTime,
     this.dateFormat: DATETIME_PICKER_TIME_FORMAT,
     this.locale: DATETIME_PICKER_LOCALE_DEFAULT,
@@ -32,7 +33,7 @@ class DateTimePickerWidget extends StatefulWidget {
     DateTime maxTime = maxDateTime ?? DateTime.parse(DATE_PICKER_MAX_DATETIME);
     assert(minTime.compareTo(maxTime) < 0);
   }
-
+  final Widget bottomView;
   final DateTime minDateTime, maxDateTime, initDateTime;
   final String dateFormat;
   final DateTimePickerLocale locale;
@@ -153,7 +154,11 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         onCancel: () => _onPressedCancel(),
         onConfirm: () => _onPressedConfirm(),
       );
-      return Column(children: <Widget>[titleWidget, pickerWidget]);
+      return Column(children: <Widget>[
+        titleWidget,
+        pickerWidget,
+        widget.bottomView ?? SizedBox()
+      ]);
     }
     return pickerWidget;
   }

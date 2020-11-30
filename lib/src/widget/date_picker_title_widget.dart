@@ -23,9 +23,9 @@ class DatePickerTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (pickerTheme.title != null) {
-      return pickerTheme.title;
-    }
+    // if (pickerTheme.title != null) {
+    //   return pickerTheme.title;
+    // }
     return Container(
       height: pickerTheme.titleHeight,
       decoration: BoxDecoration(color: pickerTheme.backgroundColor),
@@ -33,6 +33,7 @@ class DatePickerTitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _renderCancelWidget(context),
+          pickerTheme.title != null ? pickerTheme.title : Offstage(),
           _renderConfirmWidget(context),
         ],
       ),
@@ -104,8 +105,7 @@ class DatePickerTitleWidget extends StatelessWidget {
   }
 
   bool isCustomTitleWidget() {
-    return pickerTheme.cancel != null ||
-        pickerTheme.confirm != null ||
-        pickerTheme.title != null;
+    return pickerTheme.cancel != null || pickerTheme.confirm != null;
+    // pickerTheme.title != null;
   }
 }

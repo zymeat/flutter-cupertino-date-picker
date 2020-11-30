@@ -45,7 +45,7 @@ class DatePicker {
     DateTime initialDateTime,
     String dateFormat,
     Widget bottomView,
-    double bottomViewHeight,
+    double bottomViewHeight = 0,
     DateTimePickerLocale locale: DATETIME_PICKER_LOCALE_DEFAULT,
     DateTimePickerMode pickerMode: DateTimePickerMode.date,
     DateTimePickerTheme pickerTheme: DateTimePickerTheme.Default,

@@ -107,7 +107,7 @@ class _TimePickerInPageState extends State<TimePickerInPage> {
                 minuteDivider: 15,
                 pickerTheme: DateTimePickerTheme(
                     showTitle: false, backgroundColor: Color(0xFFe1bee7)),
-                onChange: (dateTime, selectedIndex) {
+                onChange: (dateTime, selectedIndex, timeType) {
                   setState(() {
                     _dateTime = dateTime;
                   });

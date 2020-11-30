@@ -168,12 +168,12 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
       onCancel: () {
         debugPrint('onCancel');
       },
-      onChange: (dateTime, List<int> index) {
+      onChange: (dateTime, List<int> index, timeType) {
         setState(() {
           _dateTime = dateTime;
         });
       },
-      onConfirm: (dateTime, List<int> index) {
+      onConfirm: (dateTime, List<int> index, timeType) {
         setState(() {
           _dateTime = dateTime;
         });

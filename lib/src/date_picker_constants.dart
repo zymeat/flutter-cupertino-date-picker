@@ -1,5 +1,8 @@
+import '../flutter_cupertino_date_picker.dart';
+
 /// Selected value of DatePicker.
-typedef DateValueCallback(DateTime dateTime, List<int> selectedIndex);
+typedef DateValueCallback(
+    DateTime dateTime, List<int> selectedIndex, DatePickerBottomType type);
 
 /// Pressed cancel callback.
 typedef DateVoidCallback();

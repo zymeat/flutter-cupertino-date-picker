@@ -48,7 +48,6 @@ class DatePicker {
     bool bottomView,
     double bottomViewHeight = 0,
     DatePickerBottomType timeType = DatePickerBottomType.morning,
-    DidSelectedDateType onSelectedTimeType,
     DateTimePickerLocale locale: DATETIME_PICKER_LOCALE_DEFAULT,
     DateTimePickerMode pickerMode: DateTimePickerMode.date,
     DateTimePickerTheme pickerTheme: DateTimePickerTheme.Default,
@@ -104,7 +103,6 @@ class DatePicker {
         bottomViewHeight: bottomViewHeight,
         pickerMode: pickerMode,
         timeType: timeType,
-        onSelectedTimeType: onSelectedTimeType,
         pickerTheme: pickerTheme,
         onCancel: onCancel,
         onChange: onChange,
@@ -133,7 +131,6 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
     this.onCancel,
     this.onChange,
     this.onConfirm,
-    this.onSelectedTimeType,
     this.timeType = DatePickerBottomType.morning,
     this.theme,
     this.barrierLabel,
@@ -153,7 +150,6 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
   final int minuteDivider;
   final bool onMonthChangeStartWithFirstDate;
   final DatePickerBottomType timeType;
-  final DidSelectedDateType onSelectedTimeType;
 
   final ThemeData theme;
 
@@ -225,7 +221,6 @@ class _DatePickerComponent extends StatelessWidget {
           dateFormat: route.dateFormat,
           locale: route.locale,
           timeType: route.timeType,
-          onSelectedTimeType: route.onSelectedTimeType,
           pickerTheme: route.pickerTheme,
           onCancel: route.onCancel,
           onChange: route.onChange,

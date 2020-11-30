@@ -137,7 +137,7 @@ class _DateTimePickerInPageState extends State<DateTimePickerInPage> {
                   ),
                   backgroundColor: Color(0xFFf0f4c3),
                 ),
-                onChange: (dateTime, selectedIndex) {
+                onChange: (dateTime, selectedIndex, timeType) {
                   setState(() {
                     _dateTime = dateTime;
                   });

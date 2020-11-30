@@ -160,7 +160,7 @@ DateTimePickerTheme(
                   titleHeight: 24.0,
                   itemHeight: 30.0,
                 ),
-                onChange: (dateTime, selectedIndex) {
+                onChange: (dateTime, selectedIndex, timeType) {
                   setState(() {
                     _dateTime = dateTime;
                   });

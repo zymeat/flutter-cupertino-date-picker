@@ -154,7 +154,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       DateTime now = DateTime.now();
       DateTime dateTime = DateTime(
           now.year, now.month, now.day, _currHour, _currMinute, _currSecond);
-      widget.onConfirm(dateTime, _calcSelectIndexList());
+      widget.onConfirm(dateTime, _calcSelectIndexList(), null);
     }
     Navigator.pop(context);
   }
@@ -165,7 +165,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       DateTime now = DateTime.now();
       DateTime dateTime = DateTime(
           now.year, now.month, now.day, _currHour, _currMinute, _currSecond);
-      widget.onChange(dateTime, _calcSelectIndexList());
+      widget.onChange(dateTime, _calcSelectIndexList(), null);
     }
   }
 

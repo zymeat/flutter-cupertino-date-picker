@@ -47,12 +47,12 @@ class _DateTimePickerBottomSheetState extends State<DateTimePickerBottomSheet> {
       onCancel: () {
         debugPrint('onCancel');
       },
-      onChange: (dateTime, List<int> index) {
+      onChange: (dateTime, List<int> index, timeType) {
         setState(() {
           _dateTime = dateTime;
         });
       },
-      onConfirm: (dateTime, List<int> index) {
+      onConfirm: (dateTime, List<int> index, timeType) {
         setState(() {
           _dateTime = dateTime;
         });

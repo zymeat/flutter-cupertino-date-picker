@@ -174,7 +174,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
       DateTime day = _baselineDate.add(Duration(days: _currDay));
       DateTime dateTime = DateTime(
           day.year, day.month, day.day, _currHour, _currMinute, _currSecond);
-      widget.onConfirm(dateTime, _calcSelectIndexList());
+      widget.onConfirm(dateTime, _calcSelectIndexList(), null);
     }
     Navigator.pop(context);
   }
@@ -185,7 +185,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
       DateTime day = _baselineDate.add(Duration(days: _currDay));
       DateTime dateTime = DateTime(
           day.year, day.month, day.day, _currHour, _currMinute, _currSecond);
-      widget.onChange(dateTime, _calcSelectIndexList());
+      widget.onChange(dateTime, _calcSelectIndexList(), null);
     }
   }
 

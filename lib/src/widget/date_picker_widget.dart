@@ -30,7 +30,6 @@ class DatePickerWidget extends StatefulWidget {
     this.pickerTheme: DateTimePickerTheme.Default,
     this.onCancel,
     this.onChange,
-    this.onSelectedTimeType,
     this.timeType = DatePickerBottomType.morning,
     this.onConfirm,
   }) : super(key: key) {
@@ -48,7 +47,6 @@ class DatePickerWidget extends StatefulWidget {
   final DateValueCallback onChange, onConfirm;
   final onMonthChangeStartWithFirstDate;
   final DatePickerBottomType timeType;
-  final DidSelectedDateType onSelectedTimeType;
 
   @override
   State<StatefulWidget> createState() => _DatePickerWidgetState(
@@ -123,10 +121,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       bottomWidget = DatePickerBottomWidget(
           timeType: _timeType,
           onSelected: (type) {
-            if (widget.onSelectedTimeType != null) {
-              widget.onSelectedTimeType(type);
-            }
-
             setState(() {
               _timeType = type;
             });
@@ -158,7 +152,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   void _onPressedConfirm() {
     if (widget.onConfirm != null) {
       DateTime dateTime = DateTime(_currYear, _currMonth, _currDay);
-      widget.onConfirm(dateTime, _calcSelectIndexList());
+      widget.onConfirm(dateTime, _calcSelectIndexList(), _timeType);
     }
     Navigator.pop(context);
   }
@@ -167,7 +161,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   void _onSelectedChange() {
     if (widget.onChange != null) {
       DateTime dateTime = DateTime(_currYear, _currMonth, _currDay);
-      widget.onChange(dateTime, _calcSelectIndexList());
+      widget.onChange(dateTime, _calcSelectIndexList(), _timeType);
     }
   }
 
